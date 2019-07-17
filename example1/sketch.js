@@ -1,10 +1,11 @@
 
 function setup() {
 	createCanvas(innerWidth, innerHeight)
-	frameRate(2)
+	frameRate(12)
 	upper = 60
 	colorMode(HSB, upper, upper, upper)
 	// hue = 0
+	x = 0
 }
 
 function draw() {
@@ -12,16 +13,22 @@ function draw() {
 	translate(width / 2, height / 2)
 
 	background(frameCount % upper, upper, upper)
-	for (let i = 0; i < 10; i++){
-		size = random(30, 100)
-		// size = 100
+	// for (let i = 0; i < 1; i++){
+		// size = random(30, 100)
+		size = 100
 		dir = int(random(0, 5))
 		// x = 0
-		x = random(-width/2 + size, width/2 - size)
-		// y = 0
-		y = random(-height/2 + size, height/2 - size)
+		// x = random(-width/2 + size, width/2 - size)
+		x = random(x + 10, x - 10)
+		if (x >= width/2 - size){
+			x = width/2 - size
+		} else if (x <= -width/2 + size){
+			x = -width/2 + size
+		}
+		y = 0
+		// y = random(-height/2 + size, height/2 - size)
 		drawPenguin(x, y, size, dir)
-	}
+	// }
 	
 
 	// hue += 1
@@ -37,8 +44,11 @@ function drawPenguin(x, y, size, dir) {
 	noStroke()
 	fill(0)
 	translate(x,y)
+
+	// waddle
 	angleMode(DEGREES)
-	rotate(random(-30, 30))
+	rotate(random(-10, 10))
+
 	// body
 	circle(0, 0, size)
 	circle(0, 0 + size, size * 1.25)
