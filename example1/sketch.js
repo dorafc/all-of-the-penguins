@@ -1,45 +1,95 @@
 
 function setup() {
 	createCanvas(innerWidth, innerHeight)
-	frameRate(12)
+	frameRate(24)
 	upper = 60
 	colorMode(HSB, upper, upper, upper)
 	// hue = 0
 	x = 0
+	y = 0
+
+	direction = 1
+	waddleSpeed = 4
+
+	waddleAngle = 0
+	currentWaddleDirection = 1
+
+	flipperAngle = 0
+	flipperDirection = 1
+
+	size = 100
+}
+
+function changeDirection(){
+	direction = direction  * -1
+}
+
+function changeWaddleDirection(){
+	currentWaddleDirection = currentWaddleDirection * -1
+}
+
+function changeFlipperDirection(){
+	flipperDirection = flipperDirection * -1
 }
 
 function draw() {
 	
 	translate(width / 2, height / 2)
 
-	background(frameCount % upper, upper, upper)
+	background(frameCount % upper, upper/2, upper/2)
 	// for (let i = 0; i < 1; i++){
 		// size = random(30, 100)
-		size = 100
+		
 		dir = int(random(0, 5))
 		// x = 0
 		// x = random(-width/2 + size, width/2 - size)
-		x = random(x + 10, x - 10)
+		
+		// WADDLE SPEED
+		x = x + (waddleSpeed * direction)
 		if (x >= width/2 - size){
 			x = width/2 - size
+			changeDirection()
 		} else if (x <= -width/2 + size){
 			x = -width/2 + size
+			changeDirection()
 		}
-		y = 0
-		// y = random(-height/2 + size, height/2 - size)
-		drawPenguin(x, y, size, dir)
-	// }
-	
 
-	// hue += 1
-	// if (hue >= 100) {
-	// 	hue = 0
-	// } else {
-	// 	hue += 1
-	// }
+		if (random() > .99){
+			changeDirection()
+		}		
+
+		// WADDLE ANGLE
+		waddleAngle = waddleAngle + (2 * currentWaddleDirection)
+		if (waddleAngle >= 10){
+			waddleAngle = 10
+			changeWaddleDirection()
+		} else if (waddleAngle <= -10){
+			waddleAngel = -10
+			changeWaddleDirection()
+		}
+
+		if (random() > .99){
+			changeWaddleDirection()
+		}	
+
+		// WADDLE ANGLE
+		flipperAngle = flipperAngle + (3 * flipperDirection)
+		if (flipperAngle >= 50){
+			flipperAngle = 50
+			changeFlipperDirection()
+		} else if (flipperAngle <= -10){
+			flipperAngle = -10
+			changeFlipperDirection()
+		}
+
+		if (random() > .99){
+			changeFlipperDirection()
+		}	
+
+		drawPenguin(x, y, size, dir, waddleAngle, flipperAngle)
 }
 
-function drawPenguin(x, y, size, dir) {
+function drawPenguin(x, y, size, dir, wAngle, fAngle) {
 	push()
 	noStroke()
 	fill(0)
@@ -47,7 +97,7 @@ function drawPenguin(x, y, size, dir) {
 
 	// waddle
 	angleMode(DEGREES)
-	rotate(random(-10, 10))
+	rotate(wAngle)
 
 	// body
 	circle(0, 0, size)
@@ -88,7 +138,6 @@ function drawPenguin(x, y, size, dir) {
 	upXR = x1
 	upYR = 0+ d0 * .5
 
-	console.log(dir)
 	if (dir === 0){
 		circle(downXL, downYL, d0 * .5)
 		circle(downXR, downYR, d0 * .5)
@@ -111,7 +160,7 @@ function drawPenguin(x, y, size, dir) {
 	push()
 	translate(x1+d0, size/4*3)
 	angleMode(DEGREES)
-	rotate(random(-50, 50))
+	rotate(fAngle)
 	triangle(0,(size/4), 0,0-(size/4), (size),0)
 	pop()
 
@@ -119,7 +168,8 @@ function drawPenguin(x, y, size, dir) {
 	push()
 	translate(x0-d0, size/4*3)
 	angleMode(DEGREES)
-	rotate(random(130, 230))
+	rotate(180)
+	rotate(-fAngle)
 	triangle(0,(size/4), 0,0-(size/4), (size),0)
 	pop()
 
