@@ -5,6 +5,11 @@ function setup() {
 	upper = 60
 	colorMode(HSB, upper, upper, upper)
 	// hue = 0
+	penguins = []
+
+	penguin = {
+		x: 
+	}
 }
 
 function draw() {
